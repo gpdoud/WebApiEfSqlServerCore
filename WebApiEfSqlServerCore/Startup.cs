@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WebApiEfSqlServerCore.Models;
 
 namespace WebApiEfSqlServerCore {
     public class Startup {
@@ -20,6 +22,9 @@ namespace WebApiEfSqlServerCore {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+
+            var connection = @"server=localhost\sqlexpress;database=DemoDb;trusted_connection=true;";
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connection));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
